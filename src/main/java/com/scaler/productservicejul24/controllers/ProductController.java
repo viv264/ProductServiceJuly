@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    //Controller
+    //Controller vivek
     private ProductService productService;
     private RestTemplate restTemplate;
 
