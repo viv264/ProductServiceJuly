@@ -3,6 +3,8 @@ package com.scaler.productservicejul24.controllers;
 import com.scaler.productservicejul24.models.Product;
 import com.scaler.productservicejul24.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,8 +25,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts(){
-        return new ArrayList<>();
+    public ResponseEntity<List<Product>> getAllProducts(){
+        ResponseEntity<List<Product>> response = new ResponseEntity<>(
+                productService.getAllProducts(), HttpStatus.NOT_FOUND
+        );
+        return response;
     }
 
     @GetMapping("/{id}")
@@ -51,6 +56,6 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public void deleteMapping(@PathVariable("id") Long id){
-
+        //return new ResponseEntity<>(HttpStatus.OK);
     }
 }
