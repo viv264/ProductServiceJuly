@@ -1,6 +1,7 @@
 package com.scaler.productservicejul24.services;
 
 import com.scaler.productservicejul24.dtos.FakeStoreProductDto;
+import com.scaler.productservicejul24.exceptions.ProductNotExistsException;
 import com.scaler.productservicejul24.models.Category;
 import com.scaler.productservicejul24.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,19 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public Product getSingleProduct(Long id) {
+    public Product getSingleProduct(Long id) throws ProductNotExistsException {
+        //throw new RuntimeException("Something stupid has happened.");
+        //int x=1/0;
         FakeStoreProductDto productDto = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + id,
                 FakeStoreProductDto.class
         );
+
+        if(productDto == null){
+            throw new ProductNotExistsException(
+                    "Product with id " + id + " doesn't exist."
+            );
+        }
         return convertFakeStoreProductToProduct(productDto);
     }
 
@@ -49,8 +58,9 @@ public class FakeStoreProductService implements ProductService{
     public List<Product> getAllProducts() {
         FakeStoreProductDto[] response = restTemplate.getForObject(
                 "https://fakestoreapi.com/products",
-                FakeStoreProductDto[].class
+                     FakeStoreProductDto[].class
         );
+        //beacuse list uses generics and convert it into hashmap which creates problem so use array
 
         List<Product> answer = new ArrayList<>();
 

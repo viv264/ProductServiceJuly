@@ -1,5 +1,6 @@
 package com.scaler.productservicejul24.controllers;
 
+import com.scaler.productservicejul24.exceptions.ProductNotExistsException;
 import com.scaler.productservicejul24.models.Product;
 import com.scaler.productservicejul24.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,17 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getSingleProduct(@PathVariable("id") Long id){
-        return productService.getSingleProduct(id);
+    public ResponseEntity<Product> getSingleProduct(@PathVariable("id") Long id) throws ProductNotExistsException {
+        //throw new RuntimeException("Something went wrong");
+        //try{
+            return new ResponseEntity<>(
+                    productService.getSingleProduct(id),
+                    HttpStatus.OK
+            );
+//        }catch (ArithmeticException exception){
+//            ResponseEntity<Product> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            return response;
+//        }
     }
 
     @PostMapping
@@ -57,5 +67,10 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteMapping(@PathVariable("id") Long id){
         //return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ExceptionHandler(ProductNotExistsException.class)
+    public ResponseEntity<Void> handleProductNotExistsException(){
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 }
