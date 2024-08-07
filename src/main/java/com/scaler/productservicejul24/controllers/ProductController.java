@@ -4,6 +4,7 @@ import com.scaler.productservicejul24.exceptions.ProductNotExistsException;
 import com.scaler.productservicejul24.models.Product;
 import com.scaler.productservicejul24.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ProductController {
     private RestTemplate restTemplate;
 
     @Autowired
-    public ProductController(ProductService productService, RestTemplate restTemplate) {
+    public ProductController(@Qualifier("selfProductService") ProductService productService, RestTemplate restTemplate) {
         this.productService = productService;
         this.restTemplate = restTemplate;
     }
@@ -69,8 +70,8 @@ public class ProductController {
         //return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ExceptionHandler(ProductNotExistsException.class)
-    public ResponseEntity<Void> handleProductNotExistsException(){
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
+//    @ExceptionHandler(ProductNotExistsException.class)
+//    public ResponseEntity<Void> handleProductNotExistsException(){
+//        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//    }
 }
