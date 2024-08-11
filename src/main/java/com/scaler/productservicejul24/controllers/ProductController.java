@@ -50,9 +50,9 @@ public class ProductController {
 
     @PostMapping
     public Product addNewProduct(@RequestBody Product product){
-        Product p = new Product();
-        p.setTitle("New Product");
-        return p;
+//        Product p = new Product();
+//        p.setTitle("New Product");
+        return productService.addNewProduct(product);
     }
 
     @PatchMapping("/{id}")

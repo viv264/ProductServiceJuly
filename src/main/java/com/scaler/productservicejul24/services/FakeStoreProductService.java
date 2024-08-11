@@ -24,6 +24,21 @@ public class FakeStoreProductService implements ProductService{
         this.restTemplate = restTemplate;
     }
 
+    @Override
+    public Product updateProduct(Long id, Product product) {
+        return null;
+    }
+
+    @Override
+    public Product addNewProduct(Product product) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteProduct(Long id) {
+        return false;
+    }
+
     private Product convertFakeStoreProductToProduct(FakeStoreProductDto fakeStoreProduct){
         Product product = new Product();
         product.setTitle(fakeStoreProduct.getTitle());
